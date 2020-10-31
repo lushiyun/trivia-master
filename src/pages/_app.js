@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
     <ThemeProvider theme={theme}>
       <ColorModeProvider value="dark">
         <CSSReset />
-        <Provider>
+        <Provider session={pageProps.session}>
           <Component {...pageProps} />
         </Provider>
       </ColorModeProvider>
