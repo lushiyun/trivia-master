@@ -1,6 +1,6 @@
 import { useColorMode, IconButton } from '@chakra-ui/core';
 
-export const DarkModeSwitch = () => {
+const DarkModeSwitch = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === 'dark';
 
@@ -16,3 +16,5 @@ export const DarkModeSwitch = () => {
     />
   );
 };
+
+export default DarkModeSwitch;
