@@ -1,16 +1,19 @@
-import { ThemeProvider, CSSReset, ColorModeProvider } from '@chakra-ui/core'
+import { ThemeProvider, CSSReset, ColorModeProvider } from '@chakra-ui/core';
+import { Provider } from 'next-auth/client';
 
-import theme from '../theme'
+import theme from '../theme';
 
 function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme}>
-      <ColorModeProvider>
+      <ColorModeProvider value="dark">
         <CSSReset />
-        <Component {...pageProps} />
+        <Provider>
+          <Component {...pageProps} />
+        </Provider>
       </ColorModeProvider>
     </ThemeProvider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;
