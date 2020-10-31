@@ -13,8 +13,7 @@ const Landing = () => (
     </Heading>
 
     <Text opacity="0.7" fontSize="lg" mt="6">
-      Answer trivia questions, ten at a time, to get the highest score among all
-      masters!
+      Answer trivia questions, ten at a time, to compete with all the trivia masters out there!
     </Text>
 
     <Button mt="8" variantColor="purple" onClick={signIn}>

@@ -13,7 +13,8 @@ const Index = () => {
       <Head>
         <title>Trivia Champion</title>
       </Head>
-      {session ? <TriviaCardList /> : <Landing />}
+      <TriviaCardList />
+      {/* {session ? <TriviaCardList /> : <Landing />} */}
     </Layout>
   );
 };
