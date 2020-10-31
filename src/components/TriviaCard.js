@@ -8,7 +8,7 @@ import {
   useToast,
 } from '@chakra-ui/core';
 
-const TriviaCard = () => {
+const TriviaCard = ({ question }) => {
   const [value, setValue] = React.useState(null);
   const toast = useToast();
 
@@ -32,25 +32,18 @@ const TriviaCard = () => {
   return (
     <Stack borderWidth="1px" rounded="lg" width="100%" p={8} spacing={8}>
       <Text fontSize="xl" fontWeight="semibold" lineHeight="short" mb={4}>
-        What was Tandem previous name?
+        {question.title}
       </Text>
       <FormControl>
         <RadioGroup
           spacing={5}
           onChange={(e) => setValue(e.target.value)}
           value={value}>
-          <Radio value="0" variantColor="purple">
-            Tandem
-          </Radio>
-          <Radio value="1" variantColor="purple">
-            Burger Shack
-          </Radio>
-          <Radio value="2" variantColor="purple">
-            Extraordinary Humans
-          </Radio>
-          <Radio value="3" variantColor="purple">
-            Devmynd
-          </Radio>
+          {question.answers.map((answer, index) => (
+            <Radio value={index} variantColor="purple">
+              {answer}
+            </Radio>
+          ))}
         </RadioGroup>
       </FormControl>
       <Stack isInline spacing={5} align="center" justify="center">

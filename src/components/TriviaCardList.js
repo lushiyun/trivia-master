@@ -1,23 +1,15 @@
-import { Box, Flex, IconButton, Spinner, Stack } from '@chakra-ui/core';
-import useQuestions from '../../useQuestions';
+import { IconButton, Spinner, Stack } from '@chakra-ui/core';
 
 import ScoreCard from './ScoreCard';
 import TriviaCard from './TriviaCard';
 
-const TriviaCardList = () => {
-  const { questions, isLoading, isError } = useQuestions();
-
-  const [activeQuestion, setActiveQuestion] = useState(0);
+const TriviaCardList = ({ questions }) => {
+  const [active, setActive] = React.useState(0);
   const [score, setScore] = React.useState(0);
-  const isLastQuestion = activeQuestion === questions.length - 1;
 
-  const handleNext = () => {
-    setActiveQuestion((prev) => prev + 1);
-  };
-
-  if (isLoading) return <Spinner />;
-
-  if (isError) return <div>Error</div>;
+  if (!questions) {
+    return <Spinner thickness="4px" speed="0.8s" size="xl" />;
+  }
 
   return (
     <Stack
@@ -30,9 +22,15 @@ const TriviaCardList = () => {
       <Stack mt={3} mb={3}>
         <ScoreCard score={score} />
       </Stack>
-      <TriviaCard />
-      {!isLastQuestion && (
-        <IconButton size="lg" aria-label="next question" icon="chevron-right" />
+      <TriviaCard question={questions[active]} />
+      {active !== questions.length - 1 && (
+        <IconButton
+          onClick={() => setActive((prev) => prev + 1)}
+          mt={8}
+          size="lg"
+          aria-label="next question"
+          icon="chevron-right"
+        />
       )}
     </Stack>
   );

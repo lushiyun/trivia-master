@@ -1,6 +1,6 @@
 import { Stat, StatLabel, StatNumber, useColorMode } from '@chakra-ui/core';
 
-const ScoreCard = () => {
+const ScoreCard = ({ score }) => {
   const { colorMode } = useColorMode();
 
   return (
@@ -10,7 +10,7 @@ const ScoreCard = () => {
       p={4}
       textAlign="center">
       <StatLabel>Your score</StatLabel>
-      <StatNumber>10</StatNumber>
+      <StatNumber>{score}</StatNumber>
     </Stat>
   );
 };
