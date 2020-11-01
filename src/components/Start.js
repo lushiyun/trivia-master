@@ -20,7 +20,7 @@ const Start = () => {
       </Heading>
       <Text>
         We all love to learn and have fun. What better way to do that than to
-        play a round of trivia! Let's take a little break with this game.
+        play a round of trivia! Let's take a little break from our normal tasks with this game.
       </Text>
       <Text>Below are the rules to get you started:</Text>
       <List as="ol" spacing={3}>
@@ -39,14 +39,18 @@ const Start = () => {
         </ListItem>
         <ListItem>
           <ListIcon icon="star" />
-          This game is timed - get the most correct answers in the shortest
-          amount of time!
+          This game is timed - get the most correct answers in the least amount
+          of time!
         </ListItem>
         <ListItem>
           <ListIcon icon="star" />
           The timer won't continue to increase when you're looking at the
           correct answer - so take as much time as you want to be amazed by the
           correct answers.
+        </ListItem>
+        <ListItem>
+          <ListIcon icon="star" />
+          Check how you rank in our scoreboard - only your best score will be recorded so don't be afraid to try as much as you want.
         </ListItem>
       </List>
       <Link href="/trivia" replace>

@@ -16,6 +16,7 @@ import {
   ModalBody,
   ModalFooter,
 } from '@chakra-ui/core';
+import Link from 'next/link';
 
 import { correctFeedback, wrongFeedback } from '../util/feedback';
 
@@ -85,10 +86,12 @@ const TriviaCard = ({ question, updateScore, updateActive, isLast }) => {
         ))}
       </RadioGroup>
 
-      <Stack isInline spacing={5} align="center" justify="center">
-        <Button variantColor="purple" variant="outline">
-          Start Over
-        </Button>
+      <Stack isInline align="center" justify="center">
+        <Link href="/" replace>
+          <Button variantColor="purple" variant="outline" mr={5}>
+            Start Over
+          </Button>
+        </Link>
         <Button
           variantColor="purple"
           isDisabled={submitDisabled}
