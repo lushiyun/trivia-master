@@ -64,7 +64,6 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
     if (isLast) {
       onOpen();
       setNextDisabled(true);
-      if (+score === 10) return <Confetti />;
     } else {
       updateActive();
       setRadioDisabled(false);
@@ -173,5 +172,9 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
     </>
   );
 };
+
+// async function postUserScore(scoreData) {
+//   const response = await 
+// }
 
 export default TriviaCard;
