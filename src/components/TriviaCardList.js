@@ -1,4 +1,4 @@
-import { IconButton, Spinner, Stack } from '@chakra-ui/core';
+import { Box, IconButton, Progress, Spinner, Stack } from '@chakra-ui/core';
 
 import ScoreCard from './ScoreCard';
 import TriviaCard from './TriviaCard';
@@ -11,6 +11,14 @@ const TriviaCardList = ({ questions }) => {
     return <Spinner thickness="4px" speed="0.8s" size="xl" />;
   }
 
+  const updateScore = (correct) => {
+    correct && setScore((prev) => prev + 1);
+  };
+
+  const updateActive = () => {
+    setActive((prev) => prev + 1);
+  };
+
   return (
     <Stack
       direction="column"
@@ -22,16 +30,20 @@ const TriviaCardList = ({ questions }) => {
       <Stack mt={3} mb={3}>
         <ScoreCard score={score} />
       </Stack>
-      <TriviaCard question={questions[active]} />
-      {active !== questions.length - 1 && (
-        <IconButton
-          onClick={() => setActive((prev) => prev + 1)}
-          mt={8}
-          size="lg"
-          aria-label="next question"
-          icon="chevron-right"
+
+      <TriviaCard
+        question={questions[active]}
+        updateScore={updateScore}
+        updateActive={updateActive}
+      />
+
+      <Box rounded="md" width="100%" borderWidth="1px" p={2} mt={4}>
+        <Progress
+          color="purple"
+          value={((active + 1) / 10) * 100}
+          width="100%"
         />
-      )}
+      </Box>
     </Stack>
   );
 };

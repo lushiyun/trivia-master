@@ -5,14 +5,14 @@ import theme from '../theme';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThemeProvider theme={theme}>
-      <ColorModeProvider value="dark">
-        <CSSReset />
-        <Provider session={pageProps.session}>
+    <Provider session={pageProps.session}>
+      <ThemeProvider theme={theme}>
+        <ColorModeProvider value="dark">
+          <CSSReset />
           <Component {...pageProps} />
-        </Provider>
-      </ColorModeProvider>
-    </ThemeProvider>
+        </ColorModeProvider>
+      </ThemeProvider>
+    </Provider>
   );
 }
 
