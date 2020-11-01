@@ -8,20 +8,28 @@ import {
   Radio,
   IconButton,
   Flex,
-  Link as ChakraLink,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from '@chakra-ui/core';
-import Link from 'next';
 
-const TriviaCard = ({ question, updateScore, updateActive }) => {
+import { correctFeedback, wrongFeedback } from '../util/feedback';
+
+const TriviaCard = ({ question, updateScore, updateActive, isLast }) => {
   const [value, setValue] = React.useState(null);
   const [correctShow, setCorrectShow] = React.useState(false);
   const [wrongShow, setWrongShow] = React.useState(false);
   const [radioDisabled, setRadioDisabled] = React.useState(false);
   const [submitDisabled, setSubmitDisabled] = React.useState(false);
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
   const correctAnswer = question.answers[question.correctIndex];
+
   let correct;
 
   const onSubmit = () => {
@@ -44,15 +52,15 @@ const TriviaCard = ({ question, updateScore, updateActive }) => {
   };
 
   const handleNext = () => {
-    updateActive();
-    setRadioDisabled(false);
-    setCorrectShow(false);
-    setWrongShow(false);
-    setSubmitDisabled(false);
-  };
-
-  const handleToggle = () => {
-    console.log('in here');
+    if (isLast) {
+      onOpen();
+    } else {
+      updateActive();
+      setRadioDisabled(false);
+      setCorrectShow(false);
+      setWrongShow(false);
+      setSubmitDisabled(false);
+    }
   };
 
   return (
@@ -78,11 +86,9 @@ const TriviaCard = ({ question, updateScore, updateActive }) => {
       </RadioGroup>
 
       <Stack isInline spacing={5} align="center" justify="center">
-        <ChakraLink as={Link} to="/">
-          <Button variantColor="purple" variant="outline">
-            Start Over
-          </Button>
-        </ChakraLink>
+        <Button variantColor="purple" variant="outline">
+          Start Over
+        </Button>
         <Button
           variantColor="purple"
           isDisabled={submitDisabled}
@@ -100,7 +106,8 @@ const TriviaCard = ({ question, updateScore, updateActive }) => {
             mt={4}
             size="lg"
             aria-label="next question"
-            icon="chevron-right"
+            icon={isLast ? 'check' : 'chevron-right'}
+            isDisabled={isLast}
           />
         </Flex>
       </Collapse>
@@ -118,30 +125,21 @@ const TriviaCard = ({ question, updateScore, updateActive }) => {
           />
         </Flex>
       </Collapse>
+
+      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalBody>
+            <Text>Body</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Stack>
   );
 };
-
-const correctFeedback = (
-  <>
-    <Text>
-      <span role="img" aria-label="party popper">
-        🎉
-      </span>{' '}
-      Yay! You got it right!
-    </Text>
-  </>
-);
-
-const wrongFeedback = (
-  <>
-    <Text>
-      <span role="img" aria-label="Sad but Relieved Face">
-        😥
-      </span>{' '}
-      Darn! You're so close!
-    </Text>
-  </>
-);
 
 export default TriviaCard;

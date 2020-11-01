@@ -1,6 +1,6 @@
 import { Stat, StatLabel, StatNumber } from '@chakra-ui/core';
 
-const ScoreCard = ({ score }) => {
+const StatCard = ({ score }) => {
 
   return (
     <Stat p={4} textAlign="center">
@@ -10,4 +10,4 @@ const ScoreCard = ({ score }) => {
   );
 };
 
-export default ScoreCard;
+export default StatCard;

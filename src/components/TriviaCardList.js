@@ -1,6 +1,6 @@
-import { Box, IconButton, Progress, Spinner, Stack } from '@chakra-ui/core';
+import { Box, Progress, Spinner, Stack } from '@chakra-ui/core';
 
-import ScoreCard from './ScoreCard';
+import StatCard from './StatCard';
 import TriviaCard from './TriviaCard';
 
 const TriviaCardList = ({ questions }) => {
@@ -28,7 +28,7 @@ const TriviaCardList = ({ questions }) => {
       width={['100%', 'xl', 'xl', 'xl']}
       spacing={8}>
       <Stack mt={3} mb={3}>
-        <ScoreCard score={score} />
+        <StatCard score={score} />
       </Stack>
 
       <TriviaCard
