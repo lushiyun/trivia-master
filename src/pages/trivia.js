@@ -1,9 +1,8 @@
-import { Box, Progress, Spinner, Stack } from '@chakra-ui/core';
+import { Box, Progress, Spinner } from '@chakra-ui/core';
 import { useSession } from 'next-auth/client';
 
 import { connectToDatabase } from '../util/mongodb';
 import shuffle from '../util/shuffle';
-import StatCard from '../components/StatCard';
 import TriviaCard from '../components/TriviaCard';
 import NoAccess from '../components/NoAccess';
 import Layout from '../components/Layout';
@@ -14,12 +13,7 @@ const Trivia = ({ questions }) => {
   if (!loading && !session) return <NoAccess />;
 
   const [active, setActive] = React.useState(0);
-  const [score, setScore] = React.useState(0);
   const isLast = active === questions.length - 1;
-
-  const updateScore = (correct) => {
-    correct && setScore((prev) => prev + 1);
-  };
 
   const updateActive = () => {
     setActive((prev) => prev + 1);
@@ -31,13 +25,8 @@ const Trivia = ({ questions }) => {
         <Spinner size="xl" label="loading trivia questions..." />
       ) : (
         <>
-          <Stack mt={3} mb={3}>
-            <StatCard score={score} />
-          </Stack>
-
           <TriviaCard
             question={questions[active]}
-            updateScore={updateScore}
             updateActive={updateActive}
             isLast={isLast}
           />

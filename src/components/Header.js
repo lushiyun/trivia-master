@@ -32,16 +32,16 @@ const Header = () => {
           </Box>
 
           <Flex align="center">
-            <Link href="/score" replace>
-              <Button mr={3}>Score Board</Button>
+            <Link href="/score">
+              <Button size="sm" mr={3}>Score Board</Button>
             </Link>
 
             {session ? (
-              <Button onClick={signOut} mr="3">
+              <Button size="sm" onClick={signOut} mr="3">
                 Log Out
               </Button>
             ) : (
-              <Button onClick={signIn} mr="3">
+              <Button size="sm" onClick={signIn} mr="3">
                 Log In
               </Button>
             )}

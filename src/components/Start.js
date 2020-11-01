@@ -53,7 +53,7 @@ const Start = () => {
           Check how you rank in our scoreboard - only your best score will be recorded so don't be afraid to try as much as you want.
         </ListItem>
       </List>
-      <Link href="/trivia" replace>
+      <Link href="/trivia">
         <Button width="125px" variantColor="purple" alignSelf="center">
           Let's Go
         </Button>
