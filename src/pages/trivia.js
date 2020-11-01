@@ -27,38 +27,30 @@ const Trivia = ({ questions }) => {
 
   return (
     <Layout>
-      <Stack
-        direction="column"
-        justify="center"
-        align="center"
-        height="100vh"
-        width={['100%', 'xl', 'xl', 'xl']}
-        spacing={8}>
-        {loading || !questions ? (
-          <Spinner size="xl" label="loading trivia questions..." />
-        ) : (
-          <>
-            <Stack mt={3} mb={3}>
-              <StatCard score={score} />
-            </Stack>
+      {loading || !questions ? (
+        <Spinner size="xl" label="loading trivia questions..." />
+      ) : (
+        <>
+          <Stack mt={3} mb={3}>
+            <StatCard score={score} />
+          </Stack>
 
-            <TriviaCard
-              question={questions[active]}
-              updateScore={updateScore}
-              updateActive={updateActive}
-              isLast={isLast}
+          <TriviaCard
+            question={questions[active]}
+            updateScore={updateScore}
+            updateActive={updateActive}
+            isLast={isLast}
+          />
+
+          <Box rounded="md" width="100%" borderWidth="1px" p={2} mt={4}>
+            <Progress
+              color="purple"
+              value={((active + 1) / 10) * 100}
+              width="100%"
             />
-
-            <Box rounded="md" width="100%" borderWidth="1px" p={2} mt={4}>
-              <Progress
-                color="purple"
-                value={((active + 1) / 10) * 100}
-                width="100%"
-              />
-            </Box>
-          </>
-        )}
-      </Stack>
+          </Box>
+        </>
+      )}
     </Layout>
   );
 };

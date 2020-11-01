@@ -5,7 +5,7 @@ import Adapters from 'next-auth/adapters';
 import Models from '../../../models';
 
 const providers = [
-  Providers.GitHub({
+  Providers.Google({
     clientId: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   }),

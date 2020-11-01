@@ -1,16 +1,23 @@
-import { Flex, Heading } from '@chakra-ui/core';
+import { Stack, Heading, Link as ChakraLink } from '@chakra-ui/core';
+import Link from 'next/link';
 
 const NoAccess = () => (
-  <Flex
+  <Stack
+    spacing={10}
     direction="column"
-    justify="center"
     align="center"
-    height="100vh"
-    maxW="xl">
+    justify="center"
+    height="100vh">
     <Heading as="h1" size="xl" color="red" fontWeight="black">
-      Access Denied
+      <span role="img" aria-label="Speak-No-Evil Monkey">
+        🙊
+      </span>{' '}
+      Oops... access denied
     </Heading>
-  </Flex>
+    <Link href="/">
+      <ChakraLink>Back to Home</ChakraLink>
+    </Link>
+  </Stack>
 );
 
 export default NoAccess;

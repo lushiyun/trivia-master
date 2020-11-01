@@ -20,13 +20,7 @@ const TriviaCardList = ({ questions }) => {
   };
 
   return (
-    <Stack
-      direction="column"
-      justify="center"
-      align="center"
-      height="100vh"
-      width={['100%', 'xl', 'xl', 'xl']}
-      spacing={8}>
+    <>
       <Stack mt={3} mb={3}>
         <StatCard score={score} />
       </Stack>
@@ -44,7 +38,7 @@ const TriviaCardList = ({ questions }) => {
           width="100%"
         />
       </Box>
-    </Stack>
+    </>
   );
 };
 
