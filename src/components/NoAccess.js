@@ -1,13 +1,10 @@
-import { Stack, Heading, Link as ChakraLink } from '@chakra-ui/core';
+import { Heading, Link as ChakraLink } from '@chakra-ui/core';
 import Link from 'next/link';
 
+import Layout from './Layout';
+
 const NoAccess = () => (
-  <Stack
-    spacing={10}
-    direction="column"
-    align="center"
-    justify="center"
-    height="100vh">
+  <Layout>
     <Heading as="h1" size="xl" color="red" fontWeight="black">
       <span role="img" aria-label="Speak-No-Evil Monkey">
         🙊
@@ -17,7 +14,7 @@ const NoAccess = () => (
     <Link href="/">
       <ChakraLink>Back to Home</ChakraLink>
     </Link>
-  </Stack>
+  </Layout>
 );
 
 export default NoAccess;
