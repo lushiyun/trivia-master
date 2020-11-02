@@ -34,7 +34,7 @@ yarn
 yarn dev
 ```
 
-## Configuration:
+### Configuration:
 
 Get and set up the following local environment variables:
 
