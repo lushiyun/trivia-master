@@ -24,7 +24,10 @@ import StatCard from './StatCard';
 
 const TriviaCard = ({ question, updateActive, isLast }) => {
   const [session] = useSession();
+
   const [score, setScore] = React.useState(0);
+  const [seconds, setSeconds] = React.useState(0);
+  const [timerActive, setTimerActive] = React.useState(true);
   const [value, setValue] = React.useState(null);
   const [correctShow, setCorrectShow] = React.useState(false);
   const [wrongShow, setWrongShow] = React.useState(false);
@@ -35,6 +38,20 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
   const toast = useToast();
 
   const correctAnswer = question.answers[question.correctIndex];
+
+  React.useEffect(() => {
+    let interval = null;
+    if (timerActive) {
+      interval = setInterval(() => {
+        setSeconds((prev) => prev + 1);
+      }, 1000);
+    } else if (!timerActive && seconds !== 0) {
+      clearInterval(interval);
+    }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [timerActive, seconds]);
 
   const onSubmit = () => {
     if (!value) {
@@ -55,6 +72,7 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
       setWrongShow(true);
     }
 
+    setTimerActive(false);
     setRadioDisabled(true);
     setSubmitDisabled(true);
     setValue(null);
@@ -64,12 +82,19 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
     if (isLast) {
       onOpen();
       setNextDisabled(true);
+      createScore({
+        points: score,
+        seconds,
+        name: session.user.name,
+        image: session.user.image,
+      });
     } else {
       updateActive();
       setRadioDisabled(false);
       setCorrectShow(false);
       setWrongShow(false);
       setSubmitDisabled(false);
+      setTimerActive(true);
     }
   };
 
@@ -91,19 +116,23 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
           <span role="img" aria-label="Star-Struck">
             🤩
           </span>{' '}
-          Wow! Perfect score!!! Enjoy the confetti!!
+          Wow! Perfect score!!!
         </Text>
       );
     } else {
-      return <Text>You scored {score}. Try again for a perfect score!</Text>;
+      return (
+        <Text>
+          You scored {score} in {seconds} seconds. Try again for a perfect
+          score!
+        </Text>
+      );
     }
   };
 
   return (
     <>
-      <Stack mt={3} mb={3}>
-        <StatCard score={score} />
-      </Stack>
+      <StatCard score={score} seconds={seconds} />
+
       <Stack borderWidth="1px" rounded="lg" width="100%" p={8} spacing={8}>
         <Text fontSize="xl" fontWeight="semibold" lineHeight="short" mb={4}>
           {question.title}
@@ -162,9 +191,11 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
           <ModalHeader>{session.user.name}</ModalHeader>
           <ModalBody>{renderedText()}</ModalBody>
           <ModalFooter>
-            <Button variantColor="purple" mr={3}>
-              Check how you rank
-            </Button>
+            <Link href="/score">
+              <Button variantColor="purple" mr={3}>
+                Check how you rank
+              </Button>
+            </Link>
             <Button onClick={onClose}>Close</Button>
           </ModalFooter>
         </ModalContent>
@@ -173,8 +204,19 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
   );
 };
 
-// async function postUserScore(scoreData) {
-//   const response = await 
-// }
+async function createScore(obj) {
+  try {
+    const response = await fetch('/api/scores/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(obj),
+    });
+    const data = await response.json();
+  } catch (e) {
+    console.log(error);
+  }
+}
 
 export default TriviaCard;

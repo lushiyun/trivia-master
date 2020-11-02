@@ -10,12 +10,6 @@ const providers = [
 
 const options = {
   providers,
-  session: {
-    jwt: true,
-  },
-  jwt: {
-    secret: process.env.JWT_SECRET,
-  },
   database: process.env.MONGODB_URI,
 };
 
