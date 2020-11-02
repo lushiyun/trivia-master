@@ -20,7 +20,17 @@ const Start = () => {
     }
     router.events.on('routeChangeStart', handleRouteChange);
     return () => {
-      router.events.off('routeChangeStart', setLoading(true));
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    const handleRouteChange = (url) => {
+      setLoading(false);
+    };
+    router.events.on('routeChangeComplete', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
 
