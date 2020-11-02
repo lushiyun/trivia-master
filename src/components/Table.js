@@ -13,14 +13,7 @@ export const Th = (props) => (
   />
 );
 
-export const Td = (props) => (
-  <Box
-    as="td"
-    color="gray.900"
-    p={4}
-    {...props}
-  />
-);
+export const Td = (props) => <Box as="td" color="gray.900" p={4} {...props} />;
 
 export const Tr = (props) => (
   <Box
@@ -42,6 +35,8 @@ export const Table = (props) => {
       ml={0}
       mr={0}
       boxShadow="0px 4px 10px rgba(0, 0, 0, 0.05)"
+      maxHeight="70vh"
+      overflowY="scroll"
       {...props}
     />
   );

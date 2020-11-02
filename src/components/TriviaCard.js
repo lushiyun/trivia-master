@@ -206,7 +206,7 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
 
 async function createScore(obj) {
   try {
-    const response = await fetch('/api/scores/create', {
+    const response = await fetch('/api/scores', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -214,6 +214,7 @@ async function createScore(obj) {
       body: JSON.stringify(obj),
     });
     const data = await response.json();
+    console.log(data);
   } catch (e) {
     console.log(error);
   }

@@ -1,9 +1,18 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ScoreSchema = new mongoose.Schema({
-  points: Number,
-  seconds: Number,
-  user: mongoose.ObjectId,
+  points: {
+    type: Number,
+  },
+  seconds: {
+    type: Number,
+  },
+  name: {
+    type: String,
+  },
+  image: {
+    type: String,
+  },
 });
 
-module.exports = mongoose.models.Score || mongoose.model('Score', ScoreSchema);
+export default mongoose.models.Score || mongoose.model('Score', ScoreSchema);
