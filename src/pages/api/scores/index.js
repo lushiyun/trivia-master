@@ -9,7 +9,13 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const scores = await Score.find({});
+        const scores = await Score.find({})
+          .sort([
+            ['points', -1],
+            ['seconds', 1],
+          ])
+          .limit(10);
+
         res.status(200).json({ success: true, data: scores });
       } catch (error) {
         res.status(400).json({ success: false });

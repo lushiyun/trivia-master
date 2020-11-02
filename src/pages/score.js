@@ -5,9 +5,6 @@ import { Table, Tr, Th, Td } from '../components/Table';
 import useScores from '../util/useScores';
 import parseSeconds from '../util/parseSeconds';
 
-const sortedScores = (data) =>
-  data.sort((a, b) => b.score - a.score).sort((a, b) => a.seconds - b.seconds);
-
 const Score = () => {
   const { data, isLoading, isError } = useScores();
 
@@ -26,7 +23,7 @@ const Score = () => {
             </Tr>
           </thead>
           <tbody>
-            {sortedScores(data.data).map((score, index) => (
+            {data.data.map((score, index) => (
               <Box as="tr" key={index}>
                 <Td>{index + 1}</Td>
                 <Td>

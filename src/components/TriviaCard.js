@@ -204,7 +204,7 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
         </ModalContent>
       </Modal>
 
-      <Confetti numberOfPieces={100} />
+      {confettiOpen && <Confetti numberOfPieces={150} />}
     </>
   );
 };

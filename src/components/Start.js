@@ -11,7 +11,13 @@ import Link from 'next/link';
 
 const Start = () => {
   return (
-    <Stack borderWidth="1px" rounded="lg" width="100%" p={8} spacing={6}>
+    <Stack
+      borderWidth="1px"
+      rounded="lg"
+      width="100%"
+      p={8}
+      spacing={6}
+      maxHeight="80vh">
       <Heading as="h2" alignSelf="center">
         <span role="img" aria-label="Nerd Face">
           🤓
@@ -20,17 +26,12 @@ const Start = () => {
       </Heading>
       <Text>
         We all love to learn and have fun. What better way to do that than to
-        play a round of trivia! Let's take a little break from our normal tasks with this game.
+        play a round of trivia! Below are the rules to get you started:
       </Text>
-      <Text>Below are the rules to get you started:</Text>
       <List as="ol" spacing={3}>
         <ListItem>
           <ListIcon icon="star" />
-          Answer 10 randomly generated trivia questions, 1 at a time.
-        </ListItem>
-        <ListItem>
-          <ListIcon icon="star" />
-          Submit your choice to reveal the answer.
+          Submit your choice to reveal the answer; then go to the next one.
         </ListItem>
         <ListItem>
           <ListIcon icon="star" />
@@ -45,12 +46,11 @@ const Start = () => {
         <ListItem>
           <ListIcon icon="star" />
           The timer won't continue to increase when you're looking at the
-          correct answer - so take as much time as you want to be amazed by the
-          correct answers.
+          correct answer - so feel free to relax after submission.
         </ListItem>
         <ListItem>
           <ListIcon icon="star" />
-          Check how you rank in our scoreboard - only your best score will be recorded so don't be afraid to try as much as you want.
+          Check how you rank on our top 10 scoreboard - and continue to increase your skills.
         </ListItem>
       </List>
       <Link href="/trivia">
