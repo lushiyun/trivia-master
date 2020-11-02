@@ -8,8 +8,19 @@ import {
   Button,
 } from '@chakra-ui/core';
 import Link from 'next/link';
+import Router from 'next/router';
 
 const Start = () => {
+  const [loading, setLoading] = React.useState(false);
+
+  Router.events.on('routerChangeStart', () => {
+    setLoading(true);
+  });
+
+  Router.events.on('routeChangeComplete', () => {
+    setLoading(false);
+  });
+
   return (
     <Stack
       borderWidth="1px"
@@ -50,11 +61,16 @@ const Start = () => {
         </ListItem>
         <ListItem>
           <ListIcon icon="star" />
-          Check how you rank on our top 10 scoreboard - and continue to increase your skills.
+          Check how you rank on our top 10 scoreboard - and continue to increase
+          your skills.
         </ListItem>
       </List>
       <Link href="/trivia">
-        <Button width="125px" variantColor="purple" alignSelf="center">
+        <Button
+          isLoading={loading}
+          width="125px"
+          variantColor="purple"
+          alignSelf="center">
           Let's Go
         </Button>
       </Link>
