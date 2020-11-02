@@ -12,6 +12,7 @@ const Index = () => {
     <Layout>
       <Head>
         <title>Trivia Champion</title>
+        <link rel="icon" href="favicon.ico"/>
       </Head>
       {session ? <Start /> : <Landing />}
     </Layout>

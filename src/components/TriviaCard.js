@@ -15,6 +15,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Link as ChakraLink,
 } from '@chakra-ui/core';
 import Link from 'next/link';
 import { useSession } from 'next-auth/client';
@@ -125,8 +126,11 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
     } else {
       return (
         <Text>
-          You scored {score} in {seconds} seconds. Try again for a perfect
-          score!
+          You scored {score} in {seconds} seconds.{' '}
+          <ChakraLink as={Link} to="/">
+            Try again
+          </ChakraLink>{' '}
+          for a perfect score!
         </Text>
       );
     }
