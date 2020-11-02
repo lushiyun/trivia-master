@@ -5,7 +5,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta title="TriviaChampion | Improve your trivia skills to be crowned with the highest score." />
+          <meta title="Trivia Champion | Improve your trivia skills to be crowned with the highest score." />
           <meta name="theme-color" content="#6b46c1"></meta>
         </Head>
         <body>

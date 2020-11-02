@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/core';
 import Link from 'next/link';
 import { useSession } from 'next-auth/client';
+import Confetti from 'react-confetti';
 
 import { correctFeedback, wrongFeedback } from '../util/feedback';
 import StatCard from './StatCard';
@@ -34,6 +35,7 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
   const [radioDisabled, setRadioDisabled] = React.useState(false);
   const [submitDisabled, setSubmitDisabled] = React.useState(false);
   const [nextDisabled, setNextDisabled] = React.useState(false);
+  const [confettiOpen, setConfettiOpen] = React.useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -82,6 +84,7 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
     if (isLast) {
       onOpen();
       setNextDisabled(true);
+      setConfettiOpen(true);
       createScore({
         points: score,
         seconds,
@@ -200,6 +203,8 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      <Confetti numberOfPieces={100} />
     </>
   );
 };
