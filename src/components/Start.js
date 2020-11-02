@@ -8,18 +8,31 @@ import {
   Button,
 } from '@chakra-ui/core';
 import Link from 'next/link';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 
 const Start = () => {
   const [loading, setLoading] = React.useState(false);
+  const router = useRouter();
 
-  Router.events.on('routerChangeStart', () => {
-    setLoading(true);
-  });
+  React.useEffect(() => {
+    const handleRouteChange = (url) => {
+      setLoading(true);
+    }
+    router.events.on('routeChangeStart', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeStart', setLoading(true));
+    };
+  }, []);
 
-  Router.events.on('routeChangeComplete', () => {
-    setLoading(false);
-  });
+  React.useEffect(() => {
+    const handleRouteChange = (url) => {
+      setLoading(false);
+    };
+    router.events.on('routeChangeStart', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeStart', setLoading(false));
+    };
+  }, [])
 
   return (
     <Stack
