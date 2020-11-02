@@ -24,7 +24,7 @@ Check out [Shiyun's portfolio](https://www.shiyunlu.com) for my other projects.
 
 ## How to use
 
-## Install and run:
+### Install and run:
 
 ```bash
 npm install
