@@ -7,7 +7,7 @@ The app has the following features:
 - Ten non-repeated questions each round.
 - Timed rounds with timer stopped during answer checking.
 - Micro user interaction with confetti at final submission.
-- Scoreboard ranking submissions by score and time.
+- Scoreboard ranking all users' submissions by score and time.
 
 ## Demonstration
 
@@ -24,7 +24,7 @@ Check out [Shiyun's portfolio](https://www.shiyunlu.com) for my other projects.
 
 ## How to use
 
-## Install and run:
+### Install and run:
 
 ```bash
 npm install
