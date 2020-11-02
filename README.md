@@ -6,7 +6,6 @@ The app has the following features:
 - User authentication with Github Oauth.
 - Ten non-repeated questions each round.
 - Timed rounds with timer stopped during answer checking.
-- Micro user interaction with confetti at final submission.
 - Scoreboard ranking all users' submissions by score and time.
 
 ## Demonstration
