@@ -223,7 +223,6 @@ async function createScore(obj) {
       body: JSON.stringify(obj),
     });
     const data = await response.json();
-    console.log(data);
   } catch (e) {
     console.log(error);
   }
