@@ -24,16 +24,6 @@ const Start = () => {
     };
   }, []);
 
-  React.useEffect(() => {
-    const handleRouteChange = (url) => {
-      setLoading(false);
-    };
-    router.events.on('routeChangeStart', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeStart', setLoading(false));
-    };
-  }, [])
-
   return (
     <Stack
       borderWidth="1px"
