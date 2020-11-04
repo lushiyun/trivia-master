@@ -1,5 +1,7 @@
 # Trivia Champion 
 
+[![Alt text](https://img.youtube.com/vi/xWLy3BSjsgs/0.jpg)](https://www.youtube.com/watch?v=xWLy3BSjsgs)
+
 This is a trivia practice app built for [Tandem](https://madeintandem.com/)'s Apprenticeship Program. Trivia data include a list of 21 questions, as-is, provided by Tandem.
 
 The app has the following features:
