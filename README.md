@@ -8,6 +8,18 @@ The app has the following features:
 - Timed rounds with timer stopped during answer checking.
 - Scoreboard ranking all users' submissions by score and time.
 
+I used this project to learn and experiment with Next.js's serverless functions and stale-while-revalidate (SWR). So you will see different techniques used for fetching data. For example:
+
+- Directly get data from the database, through Next.js's `getServerSideProps`, for the /trivia page.
+- Exposing data through an API and fetch them on the client-side through SWR, using the `useScores` hook, for the /socre page.
+
+I also used this project to learn MongoDB, so you will see different methods used for saving and retrieving data. For example:
+
+- Directly getting trivia question data from MongoDB.
+- Posting and getting score data through Mongoose.
+
+Please note, I did not want to modify the data structure for the trivia questions sent by Tandem, so the questions are saved in the database as how they're structured originally. All the parsing is done on the client-side, to demonstrate JSON parsing skills required in the code challenge.
+
 ## Demonstration
 
 Demo the project in action at [Trivia Champion](https://trivia-master.vercel.app)
