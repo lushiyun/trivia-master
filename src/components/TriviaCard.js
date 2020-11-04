@@ -15,15 +15,18 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  useColorMode,
   Link as ChakraLink,
 } from '@chakra-ui/core';
 import Link from 'next/link';
 import { useSession } from 'next-auth/client';
+import Confetti from 'react-confetti';
 
 import { correctFeedback, wrongFeedback } from '../util/feedback';
 import StatCard from './StatCard';
 
 const TriviaCard = ({ question, updateActive, isLast }) => {
+  const { colorMode } = useColorMode();
   const [session] = useSession();
 
   const [score, setScore] = React.useState(0);
@@ -35,6 +38,7 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
   const [radioDisabled, setRadioDisabled] = React.useState(false);
   const [submitDisabled, setSubmitDisabled] = React.useState(false);
   const [nextDisabled, setNextDisabled] = React.useState(false);
+  const [confettiOpen, setConfettiOpen] = React.useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -83,6 +87,7 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
     if (isLast) {
       onOpen();
       setNextDisabled(true);
+      setConfettiOpen(true);
       createScore({
         points: score,
         seconds,
@@ -124,9 +129,13 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
       return (
         <Text>
           You scored {score} in {seconds} seconds.{' '}
-          <ChakraLink as={Link} to="/">
-            Try again
-          </ChakraLink>{' '}
+          <Link href="/">
+            <ChakraLink
+              color={colorMode === 'light' ? 'purple.500' : 'purple.100'}
+              onClick={() => setConfettiOpen(false)}>
+              Try again
+            </ChakraLink>
+          </Link>{' '}
           for a perfect score!
         </Text>
       );
@@ -196,7 +205,10 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
           <ModalBody>{renderedText()}</ModalBody>
           <ModalFooter>
             <Link href="/score">
-              <Button variantColor="purple" mr={3}>
+              <Button
+                variantColor="purple"
+                mr={3}
+                onClick={() => setConfettiOpen(false)}>
                 Check how you rank
               </Button>
             </Link>
@@ -204,6 +216,8 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      {confettiOpen && <Confetti />}
     </>
   );
 };

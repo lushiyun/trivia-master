@@ -34,9 +34,8 @@ export const Table = (props) => {
       backgroundColor="white"
       ml={0}
       mr={0}
+      mt={3}
       boxShadow="0px 4px 10px rgba(0, 0, 0, 0.05)"
-      maxHeight="70vh"
-      overflowY="scroll"
       {...props}
     />
   );
