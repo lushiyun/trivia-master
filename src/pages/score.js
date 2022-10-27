@@ -1,5 +1,5 @@
 import { Box, Text, Stack, Spinner } from '@chakra-ui/core';
-import { collection, getDocs } from "firebase/firestore";
+import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import React from 'react';
 
 import Layout from '../components/Layout';
@@ -14,10 +14,17 @@ const Score = () => {
   React.useEffect(() => {
     const getScores = async () => {
       try {
-        const querySnapshot = await getDocs(collection(database, "scores"));
+        const q = query(
+          collection(database, 'scores'),
+          orderBy('score', 'desc'),
+          orderBy('seconds', 'desc'),
+          limit(10)
+        );
+        const querySnapshot = await getDocs(q);
         const scores = querySnapshot.docs.map((doc) => doc.data());
         setScores(scores);
       } catch (error) {
+        console.error(error);
         window.alert('Error fetching scores');
       } finally {
         setLoading(false);
@@ -26,7 +33,6 @@ const Score = () => {
 
     getScores();
   }, []);
-  
 
   return (
     <Layout>
