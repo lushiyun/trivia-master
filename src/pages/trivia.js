@@ -1,5 +1,5 @@
 import { Box, Progress, Spinner } from '@chakra-ui/core';
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs } from 'firebase/firestore';
 
 import shuffle from '../util/shuffle';
 import TriviaCard from '../components/TriviaCard';
@@ -40,30 +40,26 @@ const Trivia = ({ questions }) => {
 };
 
 export async function getServerSideProps() {
-  const querySnapshot = await getDocs(collection(database, "questions"));
+  const querySnapshot = await getDocs(collection(database, 'questions'));
   const questions = querySnapshot.docs.map((doc) => doc.data());
   // get 10 random questions
   const randomQuestions = shuffle(questions).slice(0, 10);
 
   return {
     props: {
-      questions: JSON.parse(
-        JSON.stringify(
-          randomQuestions.map((question) => {
-            const answers = question.incorrect.concat(question.correct);
-            const shuffledAnswers = shuffle(answers);
-            const correctIndex = shuffledAnswers.findIndex(
-              (answer) => answer === question.correct
-            );
+      questions: randomQuestions.map((question) => {
+        const answers = question.incorrect.concat(question.correct);
+        const shuffledAnswers = shuffle(answers);
+        const correctIndex = shuffledAnswers.findIndex(
+          (answer) => answer === question.correct
+        );
 
-            return {
-              title: question.question,
-              answers: shuffledAnswers,
-              correctIndex,
-            };
-          })
-        )
-      ),
+        return {
+          title: question.question,
+          answers: shuffledAnswers,
+          correctIndex,
+        };
+      }),
     },
   };
 }
