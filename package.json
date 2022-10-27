@@ -20,5 +20,8 @@
     "react-icons": "^3.11.0",
     "swr": "^0.3.8-beta.2"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "license": "MIT"
 }
