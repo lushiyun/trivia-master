@@ -1,17 +1,12 @@
 import { Box, Progress, Spinner } from '@chakra-ui/core';
-import { useSession } from 'next-auth/client';
+import { collection, getDocs } from "firebase/firestore";
 
-import { connectToDatabase } from '../util/mongodb';
 import shuffle from '../util/shuffle';
 import TriviaCard from '../components/TriviaCard';
-import NoAccess from '../components/NoAccess';
 import Layout from '../components/Layout';
+import database from '../util/firebaseConfig';
 
 const Trivia = ({ questions }) => {
-  const [session, loading] = useSession();
-
-  if (!loading && !session) return <NoAccess />;
-
   const [active, setActive] = React.useState(0);
   const isLast = active === questions.length - 1;
 
@@ -21,7 +16,7 @@ const Trivia = ({ questions }) => {
 
   return (
     <Layout>
-      {loading || !questions ? (
+      {!questions ? (
         <Spinner size="xl" label="loading trivia questions..." />
       ) : (
         <>
@@ -45,18 +40,16 @@ const Trivia = ({ questions }) => {
 };
 
 export async function getServerSideProps() {
-  const { db } = await connectToDatabase();
-
-  const questions = await db
-    .collection('questions')
-    .aggregate([{ $sample: { size: 10 } }])
-    .toArray();
+  const querySnapshot = await getDocs(collection(database, "questions"));
+  const questions = querySnapshot.docs.map((doc) => doc.data());
+  // get 10 random questions
+  const randomQuestions = shuffle(questions).slice(0, 10);
 
   return {
     props: {
       questions: JSON.parse(
         JSON.stringify(
-          questions.map((question) => {
+          randomQuestions.map((question) => {
             const answers = question.incorrect.concat(question.correct);
             const shuffledAnswers = shuffle(answers);
             const correctIndex = shuffledAnswers.findIndex(

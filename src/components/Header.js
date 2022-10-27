@@ -1,14 +1,11 @@
 import { Link as ChakraLink, Box, Flex, Button } from '@chakra-ui/core';
 import { FaGithub } from 'react-icons/fa';
-import { useSession, signIn, signOut } from 'next-auth/client';
 import Link from 'next/link';
 
 import Logo from './Logo';
 import DarkModeSwitch from './DarkModeSwitch';
 
 const Header = () => {
-  const [session] = useSession();
-
   return (
     <Box
       as="header"
@@ -30,16 +27,6 @@ const Header = () => {
             <Link href="/score">
               <Button size="sm" mr={3}>Score Board</Button>
             </Link>
-
-            {session ? (
-              <Button size="sm" onClick={signOut} mr="3">
-                Log Out
-              </Button>
-            ) : (
-              <Button size="sm" onClick={signIn} mr="3">
-                Log In
-              </Button>
-            )}
 
             <ChakraLink
               isExternal
