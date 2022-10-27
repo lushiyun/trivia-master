@@ -17,7 +17,7 @@ const Start = () => {
   React.useEffect(() => {
     const handleRouteChange = (url) => {
       setLoading(true);
-    }
+    };
     router.events.on('routeChangeStart', handleRouteChange);
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
@@ -41,7 +41,8 @@ const Start = () => {
       width="100%"
       p={8}
       spacing={6}
-      maxHeight="80vh">
+      maxHeight="80vh"
+    >
       <Heading as="h2" alignSelf="center">
         <span role="img" aria-label="Nerd Face">
           🤓
@@ -83,7 +84,8 @@ const Start = () => {
           isLoading={loading}
           width="125px"
           variantColor="purple"
-          alignSelf="center">
+          alignSelf="center"
+        >
           Let's Go
         </Button>
       </Link>

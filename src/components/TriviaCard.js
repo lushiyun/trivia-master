@@ -17,18 +17,26 @@ import {
   ModalFooter,
   useColorMode,
   Link as ChakraLink,
+  Input,
+  FormControl,
+  FormLabel,
+  Box,
 } from '@chakra-ui/core';
 import Link from 'next/link';
-import { useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
 import Confetti from 'react-confetti';
+import { collection, addDoc } from 'firebase/firestore';
 
 import { correctFeedback, wrongFeedback } from '../util/feedback';
 import StatCard from './StatCard';
+import database from '../util/firebaseConfig';
 
 const TriviaCard = ({ question, updateActive, isLast }) => {
   const { colorMode } = useColorMode();
-  const [session] = useSession();
 
+  const initialRef = React.useRef(null);
+
+  const [name, setName] = React.useState('');
   const [score, setScore] = React.useState(0);
   const [seconds, setSeconds] = React.useState(0);
   const [timerActive, setTimerActive] = React.useState(true);
@@ -88,12 +96,6 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
       onOpen();
       setNextDisabled(true);
       setConfettiOpen(true);
-      createScore({
-        points: score,
-        seconds,
-        name: session.user.name,
-        image: session.user.image,
-      });
     } else {
       updateActive();
       setRadioDisabled(false);
@@ -101,6 +103,28 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
       setWrongShow(false);
       setSubmitDisabled(false);
       setTimerActive(true);
+    }
+  };
+
+  const router = useRouter();
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const submitScore = async () => {
+    setIsLoading(true);
+
+    const scoreObj = {
+      name,
+      score,
+      seconds,
+    };
+
+    try {
+      const score = await addDoc(collection(database, 'scores'), scoreObj);
+      setIsLoading(false);
+      router.push(`/score`);
+    } catch (e) {
+      console.error(error);
+      window.alert('Error adding score');
     }
   };
 
@@ -118,26 +142,31 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
   const renderedText = () => {
     if (+score === 10) {
       return (
-        <Text>
-          <span role="img" aria-label="Star-Struck">
-            🤩
-          </span>{' '}
-          Wow! Perfect score!!!
-        </Text>
+        <Box pb={6}>
+          <Text>
+            <span role="img" aria-label="Star-Struck">
+              🤩
+            </span>{' '}
+            Wow! Perfect score!!!
+          </Text>
+        </Box>
       );
     } else {
       return (
-        <Text>
-          You scored {score} in {seconds} seconds.{' '}
-          <Link href="/">
-            <ChakraLink
-              color={colorMode === 'light' ? 'purple.500' : 'purple.100'}
-              onClick={() => setConfettiOpen(false)}>
-              Try again
-            </ChakraLink>
-          </Link>{' '}
-          for a perfect score!
-        </Text>
+        <Box pb={6}>
+          <Text>
+            You scored {score} in {seconds} seconds.{' '}
+            <Link href="/">
+              <ChakraLink
+                color={colorMode === 'light' ? 'purple.500' : 'purple.100'}
+                onClick={() => setConfettiOpen(false)}
+              >
+                Try again
+              </ChakraLink>
+            </Link>{' '}
+            for a perfect score! Or
+          </Text>
+        </Box>
       );
     }
   };
@@ -154,14 +183,16 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
         <RadioGroup
           spacing={5}
           onChange={(e) => setValue(e.target.value)}
-          value={value}>
+          value={value}
+        >
           {question.answers.map((answer, index) => (
             <Radio
               isDisabled={radioDisabled}
               size="lg"
               variantColor="purple"
               value={index}
-              key={index}>
+              key={index}
+            >
               {answer}
             </Radio>
           ))}
@@ -176,7 +207,8 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
           <Button
             variantColor="purple"
             isDisabled={submitDisabled}
-            onClick={onSubmit}>
+            onClick={onSubmit}
+          >
             Submit
           </Button>
         </Stack>
@@ -198,21 +230,48 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
         </Collapse>
       </Stack>
 
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal
+        onClose={onClose}
+        isOpen={isOpen}
+        isCentered
+        initialFocusRef={initialRef}
+      >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{session.user.name}</ModalHeader>
-          <ModalBody>{renderedText()}</ModalBody>
+          <ModalHeader />
+          <ModalBody pb={6}>
+            {renderedText()}
+
+            <Flex alignItems="end">
+              <FormControl flexGrow={1}>
+                <FormLabel>Name</FormLabel>
+                <Input
+                  ref={initialRef}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter your name to record your score"
+                />
+              </FormControl>
+            </Flex>
+          </ModalBody>
           <ModalFooter>
-            <Link href="/score">
-              <Button
-                variantColor="purple"
-                mr={3}
-                onClick={() => setConfettiOpen(false)}>
-                Check how you rank
-              </Button>
+            <Button
+              isLoading={isLoading}
+              isDisabled={name.length < 1}
+              loadingText="Submitting"
+              variantColor="purple"
+              mr={3}
+              onClick={() => {
+                setConfettiOpen(false);
+                submitScore();
+              }}
+            >
+              Submit
+            </Button>
+
+            <Link href="/">
+              <Button onClick={onClose}>Restart</Button>
             </Link>
-            <Button onClick={onClose}>Close</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -221,20 +280,5 @@ const TriviaCard = ({ question, updateActive, isLast }) => {
     </>
   );
 };
-
-async function createScore(obj) {
-  try {
-    const response = await fetch('/api/scores', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(obj),
-    });
-    const data = await response.json();
-  } catch (e) {
-    console.log(error);
-  }
-}
 
 export default TriviaCard;
