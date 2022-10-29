@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Progress, Spinner } from '@chakra-ui/core';
 import { collection, getDocs } from 'firebase/firestore';
 
@@ -39,7 +40,7 @@ const Trivia = ({ questions }) => {
   );
 };
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const querySnapshot = await getDocs(collection(database, 'questions'));
   const questions = querySnapshot.docs.map((doc) => doc.data());
   // get 10 random questions
